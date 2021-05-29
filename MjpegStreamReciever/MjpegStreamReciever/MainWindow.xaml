@@ -5,8 +5,51 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MjpegStreamReciever"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Observer's personal account" Height="450" Width="800" x:Name="mainWindow">
+
+
+    <Window.Resources>
+        <ControlTemplate TargetType="ContentControl" x:Key="movie" >
+            <Grid Margin="10,10,10,20">
+
+                <Border BorderBrush="LightGray" BorderThickness="5">
+                    <StackPanel>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="60" />
+                                <ColumnDefinition Width="1*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock>Enter link:</TextBlock>
+                            <TextBox Grid.Column="1" x:Name="source">http://47.206.111.174/mjpg/video.mjpg</TextBox>
+                        </Grid>
+                        <Grid x:Name="manipulationArea">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="1*" />
+                            </Grid.ColumnDefinitions>
+                            <Button Command="{Binding  ElementName=mainWindow,Path=DataContext.PauseViewCommand}" CommandParameter="{Binding ElementName=pauseButton}" x:Name="pauseButton">Start view</Button>
+                            <Button Command="{Binding ElementName=mainWindow,Path=DataContext.RemoveScreenCommand}" CommandParameter="{Binding ElementName=removeButton}" Grid.Column="1" x:Name="removeButton">Close screen</Button>
+                        </Grid>
+                        <Image MaxHeight="300" MinHeight="300" x:Name="viewport" Source="Resources/Images/View error.png"></Image>
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </ControlTemplate>
+    </Window.Resources>
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="3*" />
+            <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="30" />
+        </Grid.RowDefinitions>
+        <ScrollViewer x:Name="scrollViewer" Grid.ColumnSpan="3">
+            <StackPanel x:Name="screensContainer">
+            </StackPanel>
+        </ScrollViewer>
+        <Button Command="{Binding AddScreenCommand}" x:Name="addButton" Grid.Column="1" Grid.Row="1" Margin="0,5,0,5">Add new screen</Button>
     </Grid>
 </Window>

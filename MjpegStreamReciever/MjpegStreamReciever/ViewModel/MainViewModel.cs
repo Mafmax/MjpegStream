@@ -37,10 +37,12 @@ namespace MjpegStreamReciever.ViewModel
         private void CreateRemoveCommand()
         {
             RemoveScreenCommand = new RelayCommand(x =>
-              Remove((x as Button).DataContext as IViewArea));
+              Remove(x as Button));
         }
-        private void Remove(IViewArea viewArea)
+        private void Remove(Button sender)
         {
+            var viewArea = sender.DataContext as IViewArea;
+            Pause(sender);
             int index = ViewsOnWindow.IndexOf(viewArea);
             ViewsOnWindow.RemoveAt(index);
             window.screensContainer.Children.RemoveAt(index);

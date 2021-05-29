@@ -75,8 +75,8 @@ namespace MjpegStreamReciever
             container.Bind<IViewAreaProvider>().To<SimpleViewAreaProvider>();
             container.Bind<MainViewModel>().To<MainViewModel>()
                 .WithConstructorArgument("window", this);
-            BindFolderStream(container);
             container.Bind<IDataProviderFactory>().ToFactory();
+            BindFolderStream(container);
             //BindMjpegStream(container);
 
             return container.Get<MainViewModel>();

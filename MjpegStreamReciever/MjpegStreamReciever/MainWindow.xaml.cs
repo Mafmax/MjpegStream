@@ -39,6 +39,7 @@ namespace MjpegStreamReciever
         {
             InitializeComponent();
             Loaded += MainWindow_Loaded;
+        
         }
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
@@ -76,8 +77,8 @@ namespace MjpegStreamReciever
             container.Bind<MainViewModel>().To<MainViewModel>()
                 .WithConstructorArgument("window", this);
             container.Bind<IDataProviderFactory>().ToFactory();
-            BindFolderStream(container);
-            //BindMjpegStream(container);
+            //BindFolderStream(container);
+            BindMjpegStream(container);
 
             return container.Get<MainViewModel>();
         }

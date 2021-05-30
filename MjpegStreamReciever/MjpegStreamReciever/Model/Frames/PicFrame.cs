@@ -17,6 +17,7 @@ namespace MjpegStreamReciever.Model
 
         public override BitmapSource GetContent()
         {
+            
             using (MemoryStream ms = new MemoryStream(Data))
             {
                 var decoder = BitmapDecoder.Create(ms,

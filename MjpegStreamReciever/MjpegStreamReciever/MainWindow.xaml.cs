@@ -34,7 +34,7 @@ namespace MjpegStreamReciever
     {
         private static string ResourcesPath => Environment.CurrentDirectory
                 .Replace("\\bin\\Debug", "\\") + "Resources\\";
-        public static int FPS = 30;
+        public static int FPS = 60;
         public MainWindow()
         {
             InitializeComponent();

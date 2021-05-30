@@ -16,6 +16,7 @@ namespace MjpegStreamReciever.ViewModel
         private readonly int fps;
         private readonly DataFilter[] filters;
         private object locker = new object();
+        private bool onInit = false;
         private ConcurrentQueue<byte[]> frameDataBuffer = new ConcurrentQueue<byte[]>();
       
         public DataViewer(IDataProviderFactory providerFactory, int fps, params DataFilter[] filters)
@@ -40,6 +41,7 @@ namespace MjpegStreamReciever.ViewModel
 
         private void View(string source, IProgress<byte[]> progress)
         {
+            onInit = true;
             Task.Run(() => FillDataBuffer(source));
             Task.Run(() => GetDataFromBuffer(progress));
         }
@@ -47,11 +49,14 @@ namespace MjpegStreamReciever.ViewModel
         {
             while (true)
             {
+                bool initProvider = false; ;
                 lock (locker)
                 {
                     if (Paused) break;
+                    initProvider = onInit;
+                    onInit = false;
                 }
-                frameDataBuffer.Enqueue(GetFrameData(source));
+                frameDataBuffer.Enqueue(GetFrameData(source,initProvider));
                 WaitNextFrame(fps);
             }
         }
@@ -86,9 +91,9 @@ namespace MjpegStreamReciever.ViewModel
 
             Thread.Sleep((int)(1000.0 / fps));
         }
-        private byte[] GetFrameData(string source)
+        private byte[] GetFrameData(string source, bool firstStart)
         {
-            return provider.Provide(source);
+            return provider.Provide(source,firstStart);
         }
         private void SetPaused(bool paused)
         {
